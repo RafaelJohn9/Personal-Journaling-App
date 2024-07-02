@@ -29,25 +29,24 @@ Use a simple and intuitive UI, focusing on usability and clarity. You can use pr
 
 ### **Backend Service**
 *Platform*
-I will use Python backend as a backend of choice
-We prefer that the project be done using TypeScript. However, we will still accept submissions in plain Javascript.
+ - I will use Python backend as a backend of choice
 
-Features
-1. User Management
-User registration and authentication (JWT or session-based).
-Profile management.
-2. Journal Entry Management
-CRUD operations for journal entries.
-Categorization of entries.
-3. Data Summary
-Endpoints to fetch summary data for given periods.
-4. Security
-   - Ensure all endpoints are secure and accessible only by authenticated users.
-5. Database
-   - Use a relational database like PostgreSQL or MySQL.
+#### **Features**
+- User Management
+  1. User registration and authentication (JWT or session-based).
+  2. Profile management.
+- Journal Entry Management
+  1. CRUD operations for journal entries.
+  2. Categorization of entries.
+- Data Summary
+  1. Endpoints to fetch summary data for given periods.
+- Security
+  1. Ensure all endpoints are secure and accessible only by authenticated users.
+- Database
+  1. Use a relational database like PostgreSQL or MySQL.
 
 ## Project Deliverables
-A GitHub repository(ies) containing the code for both the mobile app and backend service.
+A GitHub repository containing the code for both the mobile app and backend service.
   - Documentation
   - Instructions on how to set up and run the backend service.
   - Instructions on how to build and run the mobile app.
