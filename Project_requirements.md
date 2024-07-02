@@ -43,7 +43,7 @@ Use a simple and intuitive UI, focusing on usability and clarity. You can use pr
 - Security
   1. Ensure all endpoints are secure and accessible only by authenticated users.
 - Database
-  1. Use a relational database like PostgreSQL or MySQL.
+  1. Using MySQL as the database.
 
 ## Project Deliverables
 A GitHub repository containing the code for both the mobile app and backend service.
@@ -53,19 +53,19 @@ A GitHub repository containing the code for both the mobile app and backend serv
   - API documentation detailing the endpoints and their usage.
 
 #### **Timeline**
-Day 1-2: Set up the project structure for both the mobile app and backend. Implement user authentication.
-Day 3-4: Develop CRUD operations for journal entries and implement categorization.
-Day 5: Implement the user interface and data fetching in the mobile app.
-Day 6: Testing and bug fixing.
-Day 7: Final touches, create documentation, and record the demo video.
+- Day 1-2: Set up the project structure for both the mobile app and backend. Implement user authentication.
+- Day 3-4: Develop CRUD operations for journal entries and implement categorization.
+- Day 5: Implement the user interface and data fetching in the mobile app.
+- Day 6: Testing and bug fixing.
+- Day 7: Final touches, create documentation, and record the demo video.
 
 ## **Evaluation Criteria**
-**Code Quality**: Clean, readable, and maintainable code with appropriate use of design patterns.
-**Functionality**: Completeness of the features as described.
-**User Interface**: Usability and visual appeal of the mobile app.
-**Documentation**: Clarity and completeness of the setup instructions and API documentation.
-**Testing**: Adequate testing to ensure reliability and correctness.
-**Commit History**: Please commit early & often as this shows us your process.
+- **Code Quality**: Clean, readable, and maintainable code with appropriate use of design patterns.
+- **Functionality**: Completeness of the features as described.
+- **User Interface**: Usability and visual appeal of the mobile app.
+- **Documentation**: Clarity and completeness of the setup instructions and API documentation.
+- **Testing**: Adequate testing to ensure reliability and correctness.
+- **Commit History**: Please commit early & often as this shows us your process.
 
-**Submission Details**
+- **Submission Details**
 *https://forms.gle/4BhkBvY8RjZ3HjFN8*
