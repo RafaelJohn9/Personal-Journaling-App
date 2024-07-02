@@ -26,7 +26,7 @@ def send_otp_email(email, otp):
     from_email = smtp_username
 
     subject = 'Your OTP Code'
-    body = f'Your OTP code is {otp}. It is valid for 2 hours.'
+    body = f'Your OTP code is {otp}. Valid for a limited amount of time'
 
     msg = MIMEText(body)
     msg['Subject'] = subject
