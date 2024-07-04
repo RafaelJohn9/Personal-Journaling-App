@@ -110,4 +110,4 @@ class OTPVerificationResource(Resource):
         if stored_otp and stored_otp.decode('utf-8') == otp:
             return jsonify(message='OTP verification successful'), 200
         else:
-            return jsonify(message='OTP verification failed'), 400
+            return {'message': 'OTP verification failed'}, 400
