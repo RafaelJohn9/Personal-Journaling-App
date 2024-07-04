@@ -1,12 +1,11 @@
-import React from 'react'
-import { View, Text, ImageBackground } from 'react-native'
-import originals from '../assets/images/bg.jpg';
-import AppNavigator from '../navigation';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from '../navigation/AppNavigator';
 
-const index = () => {
-  return (
-    <AppNavigator />
-  )
-}
+const App = () => {
+    return (
+        <AppNavigator />
+    );
+};
 
-export default index
+export default App;

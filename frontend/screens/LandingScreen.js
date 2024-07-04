@@ -2,8 +2,23 @@ import React from 'react';
 import { View, Text, Pressable, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import BackgroundImage from '../assets/images/landing.jpeg';
+import { isLoggedIn } from '../middlewares/authMiddleware';
 
 const LandingScreen = ({ navigation }) => {
+    const loginValidation = async (screen) => {
+        try {
+            const loggedIn = await isLoggedIn(); // Wait for isLoggedIn() to resolve
+            if (loggedIn) {
+                navigation.navigate(screen);
+            } else {
+                navigation.navigate('Login');
+            }
+        } catch (error) {
+            console.error('Login validation error:', error);
+            navigation.navigate('Login'); // Handle error by navigating to Login screen
+        }
+    };
+
     return (
         <ImageBackground source={BackgroundImage} resizeMode='cover' style={{ flex: 1 }}>
             <LinearGradient
@@ -14,7 +29,7 @@ const LandingScreen = ({ navigation }) => {
                     Personal Journal
                 </Text>
                 <Pressable
-                    onPress={() => navigation.navigate('Login')}
+                    onPress={() => loginValidation('JournalList')}
                     style={({ pressed }) => [
                         {
                             backgroundColor: pressed ? 'rgba(59, 130, 246, 0.7)' : '#3B82F6',

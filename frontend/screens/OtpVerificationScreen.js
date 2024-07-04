@@ -1,6 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import OtpVerification from '../components/Auth/OtpVerification';
+import OTPBackgroundImage from '../assets/images/landing.jpeg';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const OtpVerificationScreen = ({ navigation }) => {
     const handleVerify = (otp) => {
@@ -9,9 +11,11 @@ const OtpVerificationScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={{ flex: 1 }}>
-            <OtpVerification onVerify={handleVerify} />
-        </View>
+        <ImageBackground source={OTPBackgroundImage} resizeMode='cover' style={{ flex: 1 }}>
+            <View className="flex-1 mx-4">
+                <OtpVerification onVerify={handleVerify} />
+            </View>
+        </ImageBackground>
     );
 };
 

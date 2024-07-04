@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const JournalListScreen = () => {
+const JournalListScreen = ({ navigation }) => {
     return (
         <View className="flex-1 justify-center items-center">
             <Text className="text-3xl font-bold">Journal List</Text>
