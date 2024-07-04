@@ -15,7 +15,7 @@ api.add_resource(Register, '/register')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(SendOTPResource, '/send_otp')
-api.add_resource(OTPVerificationResource, '/api/v1/verify-otp')
+api.add_resource(OTPVerificationResource, '/verify_otp')
 
 # Journal endpoints
 api.add_resource(JournalListResource, '/journals')
