@@ -10,7 +10,7 @@ const Register = ({ onRegister }) => {
         setLoading(true); // Set loading to true before making the API call
         try {
             // Implement register logic here
-            await onRegister(email);
+            await onRegister(email, username);
         } catch (error) {
             console.error('Registration error:', error);
         } finally {

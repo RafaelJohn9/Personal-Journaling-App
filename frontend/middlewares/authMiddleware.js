@@ -28,18 +28,24 @@ export const isLoggedIn = async () => {
     }
 };
 
-/**
- * Stores an object in AsyncStorage.
- * @param {string} key - The key under which the value will be stored.
- * @param {Object} value - The value (object) to be stored.
- * @returns {Promise<void>} - A promise that resolves when the value is stored.
- */
+// Function to store an object from AsyncStorage
 export const storeObject = async (key, value) => {
     try {
         const jsonValue = JSON.stringify(value);
         await AsyncStorage.setItem(key, jsonValue);
     } catch (error) {
         console.error('Error storing object in AsyncStorage:', error);
+    }
+};
+
+// Function to retrieve an object from AsyncStorage
+export const getObject = async (key) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem(key);
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (error) {
+        console.error('Error retrieving object from AsyncStorage:', error);
+        return null;
     }
 };
 
@@ -56,8 +62,29 @@ export const requestOtp = async (email) => {
     }
 };
 
+
+// OTP verification
+export const otpVerification = async (otp, email) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/verify_otp`, { otp, email });
+
+        // Check if the response status is 200
+        if (response.status === 200 || response.status === 400) {
+            return response.data;
+        } else {
+            throw new Error('OTP verification failed');
+        }
+    } catch (error) {
+        console.error('Error verifying OTP:', error);
+        throw error;
+    }
+};
+
+
 // Register a new user
-export const register = async (email, password, username) => {
+export const register = async (password) => {
+    console.error(await getObject('user'))
+    const { email, username } = await getObject('user');
     try {
         const response = await axios.post(`${API_BASE_URL}/register`, {
             email,
@@ -66,12 +93,14 @@ export const register = async (email, password, username) => {
         });
 
         // Handle the response as needed
-        if (response.data && response.data.access_token) {
-            Cookies.set('access_token', response.data.access_token);
-            return response.data;
+        if (response.status === 200) {
+            // automatically logins a user after successful registration
+            await login(email, password)
+
+            return true;
         }
 
-        return null;
+        return false;
     } catch (error) {
         console.error('Registration error:', error);
         throw error;
