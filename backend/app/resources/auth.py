@@ -108,6 +108,6 @@ class OTPVerificationResource(Resource):
         stored_otp = redis_conn.get(email)
 
         if stored_otp and stored_otp.decode('utf-8') == otp:
-            return jsonify(message='OTP verification successful'), 200
+            return {'message': 'OTP verification successful'}, 200
         else:
             return {'message': 'OTP verification failed'}, 400
