@@ -1,11 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import jwtDecode from 'jwt-decode';
-
-
-// Base URL for your Flask API
-const API_BASE_URL = 'http://192.168.100.93:5000/api/v1';
+import { jwtDecode } from 'jwt-decode';
+import { API_BASE_URL } from './globals';
 
 // checks if a user is logged in
 export const isLoggedIn = async () => {
@@ -28,6 +25,34 @@ export const isLoggedIn = async () => {
     } catch (error) {
         console.error('Error checking login status:', error);
         return false; // Return false in case of any errors
+    }
+};
+
+/**
+ * Stores an object in AsyncStorage.
+ * @param {string} key - The key under which the value will be stored.
+ * @param {Object} value - The value (object) to be stored.
+ * @returns {Promise<void>} - A promise that resolves when the value is stored.
+ */
+export const storeObject = async (key, value) => {
+    try {
+        const jsonValue = JSON.stringify(value);
+        await AsyncStorage.setItem(key, jsonValue);
+    } catch (error) {
+        console.error('Error storing object in AsyncStorage:', error);
+    }
+};
+
+// requests OTP for user approval
+export const requestOtp = async (email) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/send_otp`, { email });
+
+        // Assuming the response contains the OTP data
+        return response.data;
+    } catch (error) {
+        console.error('Error querying OTP endpoint:', error);
+        throw error;
     }
 };
 

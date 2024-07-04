@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
 
 const Register = ({ onRegister }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false); // State to manage loading state
 
-    const handleRegister = () => {
-        // Implement register logic here
-        onRegister(email);
+    const handleRegister = async () => {
+        setLoading(true); // Set loading to true before making the API call
+        try {
+            // Implement register logic here
+            await onRegister(email);
+        } catch (error) {
+            console.error('Registration error:', error);
+        } finally {
+            setLoading(false); // Reset loading state after API call completes
+        }
     };
 
     return (
@@ -29,8 +37,16 @@ const Register = ({ onRegister }) => {
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
-            <Pressable className="bg-blue-500 p-3 mx-auto w-3/4 rounded-full" onPress={handleRegister}>
-                <Text className="text-white text-center">Register</Text>
+            <Pressable
+                className="bg-blue-500 p-3 mx-auto w-3/4 rounded-full"
+                onPress={handleRegister}
+                disabled={loading} // Disable button when loading
+            >
+                {loading ? (
+                    <ActivityIndicator size="small" color="#ffffff" />
+                ) : (
+                    <Text className="text-white text-center text-lg font-extrabold">Register</Text>
+                )}
             </Pressable>
         </View>
     );

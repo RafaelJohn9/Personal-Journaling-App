@@ -4,11 +4,17 @@ import Register from '../components/Auth/Register';
 import { ImageBackground } from 'react-native';
 import RegisterBackgroundImage from '../assets/images/landing.jpeg';
 import { LinearGradient } from 'expo-linear-gradient';
+import { requestOtp, storeObject } from '../middlewares/authMiddleware';
 
 
 const RegisterScreen = ({ navigation }) => {
-    const handleRegister = (email) => {
-        // Implement registration navigation logic here
+    const handleRegister = async (email, username) => {
+        await storeObject("user", {
+            username: username,
+            email: email,
+        }
+        )
+        await requestOtp(email)
         navigation.navigate('OtpVerification');
     };
 
