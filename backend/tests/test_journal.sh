@@ -4,7 +4,7 @@
 API_BASE_URL="http://localhost:5000/api/v1"
 
 # Set the session web cookie (access_token_cookie)
-SESSION_COOKIE="access_token_cookie=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxOTk0MzUyNCwianRpIjoiOWZlZjJiZjEtNWJiZC00OTk1LWE3MGYtNThlNGYyNmNmNDNhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InJhZmFlbGpvaGJAZ21haWwuY29tIiwibmJmIjoxNzE5OTQzNTI0LCJleHAiOjE5NzkxNDM1MjR9.WrqgQTPNe4VlxoX4BlbQ_64UGioRtoRM25FXrSABOAc"
+SESSION_COOKIE="${SESSION_COOKIE}"
 
 # Function to make a POST request to create a new journal
 create_journal() {

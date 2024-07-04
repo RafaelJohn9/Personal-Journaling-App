@@ -3,7 +3,7 @@
 
 from flask import Blueprint
 from flask_restful import Api
-from app.resources.auth import Register, Login, Logout, SendOTPResource
+from app.resources.auth import Register, Login, Logout, SendOTPResource, OTPVerificationResource
 from app.resources.journal_endpoints import JournalListResource, JournalResource
 
 
@@ -15,6 +15,7 @@ api.add_resource(Register, '/register')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(SendOTPResource, '/send_otp')
+api.add_resource(OTPVerificationResource, '/api/v1/verify-otp')
 
 # Journal endpoints
 api.add_resource(JournalListResource, '/journals')

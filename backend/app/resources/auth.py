@@ -91,3 +91,23 @@ class SendOTPResource(Resource):
         send_otp_email(email, otp)
 
         return jsonify(message='OTP sent to your email')
+
+class OTPVerificationResource(Resource):
+    """ Verifies the OTP sent to the user's email """
+    def post(self):
+        """ post method for verifying otp """
+        parser = reqparse.RequestParser()
+        parser.add_argument('email', type=str, required=True, help='Email is required')
+        parser.add_argument('otp', type=str, required=True, help='OTP is required')
+        args = parser.parse_args()
+
+        email = args['email']
+        otp = args['otp']
+
+        # Retrieve the stored OTP from Redis
+        stored_otp = redis_conn.get(email)
+
+        if stored_otp and stored_otp.decode('utf-8') == otp:
+            return jsonify(message='OTP verification successful')
+        else:
+            return jsonify(message='OTP verification failed'), 400
