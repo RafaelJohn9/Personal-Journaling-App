@@ -28,6 +28,15 @@ export const isLoggedIn = async () => {
     }
 };
 
+//  Authentication Headers needed for authenticated users
+export const getAuthHeaders = async () => {
+    const token = await getObject('access_token');
+    if (!token) {
+        throw new Error('No access token found');
+    }
+    return { 'Cookie': `access_token=${token}` };
+};
+
 // Function to store an object from AsyncStorage
 export const storeObject = async (key, value) => {
     try {
@@ -133,3 +142,20 @@ export const login = async (email, password) => {
         throw error;
     }
 };
+
+
+export const logout = async () => {
+    try {
+        const headers = await getAuthHeaders();
+        await AsyncStorage.removeItem('access_token');
+        const response = await axios.post(`${API_BASE_URL}/logout`, {}, { headers });
+        console.error(response.status);
+        if (response.status === 200) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        throw error;
+    }
+};
+

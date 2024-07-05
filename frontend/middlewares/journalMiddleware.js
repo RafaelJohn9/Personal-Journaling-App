@@ -1,14 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from './globals';
-import { getObject } from './authMiddleware'; // Assuming this function exists to get the access token
-
-const getAuthHeaders = async () => {
-    const token = await getObject('access_token');
-    if (!token) {
-        throw new Error('No access token found');
-    }
-    return { 'Cookie': `access_token=${token}` };
-};
+import { getObject, getAuthHeaders } from './authMiddleware'; // Assuming this function exists to get the access token
 
 export const createJournal = async (title, category, content) => {
     try {
@@ -94,6 +86,26 @@ export const readAllJournals = async () => {
         }
     } catch (error) {
         console.error('Error fetching journals:', error);
+        throw error;
+    }
+};
+
+export const updateJournal = async (id, title, category, content) => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.put(`${API_BASE_URL}/journals/${id}`, {
+            title,
+            content,
+            category,
+        }, { headers });
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to update journal');
+        }
+    } catch (error) {
+        console.error('Error updating journal:', error);
         throw error;
     }
 };

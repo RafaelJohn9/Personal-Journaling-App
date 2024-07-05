@@ -2,15 +2,17 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const JournalItem = ({ journal, onEdit, onDelete }) => {
+const JournalItem = ({ journal, onEdit, onDelete, navigator }) => {
     return (
-        <View className="p-2 border-b border-gray-200 flex flex-row justify-between m-2">
-            <View>
+        <View className="p-2 border-b border-gray-200 flex flex-row justify-between  overflow-x-auto w-11/12">
+            <Pressable
+                onPress={() => navigator.navigate('EditJournal', { journal })}
+            >
                 <Text className="text-lg font-bold">{journal.title}</Text>
                 <Text>{journal.date}</Text>
-            </View>
+            </Pressable>
             <View className="flex flex-row justify-between">
-                <Pressable onPress={() => onEdit(journal.id)}>
+                <Pressable onPress={() => onEdit(journal)}>
                     <Ionicons name="create-outline" size={24} color="blue" />
                 </Pressable>
                 <Pressable onPress={() => onDelete(journal.id)}>

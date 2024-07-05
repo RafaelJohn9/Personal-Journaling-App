@@ -20,7 +20,16 @@ const CreateJournalScreen = ({ navigation }) => {
         try {
             const newJournal = await createJournal(title, category, content);
             Alert.alert('Success', 'Journal created successfully.');
-            navigation.navigate('JournalList');
+
+            // enable rerendering of JournalList
+            navigation.navigate({
+                name: 'JournalList',
+                key: Date.now().toString() // Unique key for every navigation
+            });
+            setTitle('');
+            setCategory('')
+            setContent('')
+
         } catch (error) {
             Alert.alert('Error', 'Failed to create journal. Please try again.');
             console.error('Error creating journal:', error);
