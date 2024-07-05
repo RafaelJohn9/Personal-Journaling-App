@@ -3,13 +3,18 @@ import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const JournalItem = ({ journal, onEdit, onDelete, navigator }) => {
+    const journalDate = new Date(journal.date)
+    const year = journalDate.getFullYear();
+    const month = journalDate.getMonth();
+    const day = journalDate.getDate();
+    const date = `${day}/${month}/${year}`;
     return (
-        <View className="p-2 border-b border-gray-200 flex flex-row justify-between  overflow-x-auto w-11/12">
+        <View className="p-2 border-b border-gray-200 flex flex-row justify-between  overflow-x-auto w-10/12">
             <Pressable
                 onPress={() => navigator.navigate('EditJournal', { journal })}
             >
                 <Text className="text-lg font-bold">{journal.title}</Text>
-                <Text>{journal.date}</Text>
+                <Text>{date}</Text>
             </Pressable>
             <View className="flex flex-row justify-between">
                 <Pressable onPress={() => onEdit(journal)}>

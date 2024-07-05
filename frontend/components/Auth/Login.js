@@ -52,6 +52,7 @@ const Login = ({ navigation }) => {
                 <Pressable className="p-2" onPress={togglePasswordVisibility}>
                     <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={24} color="black" />
                 </Pressable>
+
             </View>
             {error && <Text className="text-red-500 text-center mb-4">{error}</Text>}
             <Pressable className="bg-blue-500 p-3 rounded-full flex items-center justify-center" onPress={handleLogin} disabled={loading}>
@@ -60,6 +61,9 @@ const Login = ({ navigation }) => {
                 ) : (
                     <Text className="text-white text-center font-bold text-lg">Login</Text>
                 )}
+            </Pressable>
+            <Pressable className="p-2" onPress={() => navigation.navigate('ForgotPassword')}>
+                <Text className="text-blue-800 text-center text-lg">Forgot password?</Text>
             </Pressable>
         </View>
     );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator, Alert } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { readAllJournals, deleteJournal } from '../middlewares/journalMiddleware'; // Assuming these middleware functions exist
@@ -9,6 +10,7 @@ import JournalList from '../components/Journal/JournalList';
 const JournalListScreen = ({ navigation }) => {
     const [journals, setJournals] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [filter, setFilter] = useState('all');
 
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -34,6 +36,10 @@ const JournalListScreen = ({ navigation }) => {
 
         fetchJournals();
     }, []);
+
+    const handleFilterChange = (value) => {
+        setFilter(value);
+    };
 
     const handleEditJournal = (journal) => {
         // Navigate to EditJournalScreen with the journal ID
@@ -86,6 +92,19 @@ const JournalListScreen = ({ navigation }) => {
                     </Pressable>
                 </View>
             </View>
+            <View className="flex flex-row justify-between p-2 border-b border-gray-300">
+                <Text className="text-lg">Filter by:</Text>
+                <Picker
+                    selectedValue={filter}
+                    style={{ height: 50, width: 150 }}
+                    onValueChange={(itemValue) => handleFilterChange(itemValue)}
+                >
+                    <Picker.Item label="All" value="all" />
+                    <Picker.Item label="Day" value="day" />
+                    <Picker.Item label="Month" value="month" />
+                    <Picker.Item label="Year" value="year" />
+                </Picker>
+            </View>
             {loading ? (
                 <ActivityIndicator size="large" color="blue" className="mt-4" />
             ) : journals.length === 0 ? (
@@ -95,6 +114,7 @@ const JournalListScreen = ({ navigation }) => {
             ) : (
                 <JournalList
                     journals={journals}
+                    filter={filter}
                     onEdit={handleEditJournal}
                     onDelete={handleDeleteJournal}
                     navigator={navigation}

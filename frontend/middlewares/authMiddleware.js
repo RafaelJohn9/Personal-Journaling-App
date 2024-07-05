@@ -63,7 +63,7 @@ export const requestOtp = async (email) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/send_otp`, { email });
 
-        // Assuming the response contains the OTP data
+        // response contains the OTP data
         return response.data;
     } catch (error) {
         console.error('Error querying OTP endpoint:', error);
@@ -149,7 +149,6 @@ export const logout = async () => {
         const headers = await getAuthHeaders();
         await AsyncStorage.removeItem('access_token');
         const response = await axios.post(`${API_BASE_URL}/logout`, {}, { headers });
-        console.error(response.status);
         if (response.status === 200) {
             return true;
         }

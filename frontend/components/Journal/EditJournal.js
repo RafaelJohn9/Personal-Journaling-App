@@ -25,7 +25,7 @@ const EditJournal = ({ journal, onUpdate }) => {
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center w-11/12">
-                <Text className="text-3xl font-bold mb-4 text-center uppercase text-slate-300">Edit Journal Entry</Text>
+                <Text className="text-3xl font-bold mb-4 text-center uppercase text-slate-300">Edit Journal</Text>
                 <View className="mb-4">
                     <TextInput
                         className="p-2 border-b border-gray-300 text-lg"

@@ -8,6 +8,7 @@ import PasswordResetScreen from '../screens/PasswordResetScreen';
 import JournalListScreen from '../screens/JournalListScreen';
 import EditJournalScreen from '../screens/EditJournalScreen';
 import CreateJournalScreen from '../screens/CreateJournalScreen';
+import ForgotPasswordEmailScreen from '../screens/ForgotPass_EmailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ const AppNavigator = () => {
             <Stack.Screen name="JournalList" options={{ headerShown: false }} component={JournalListScreen} />
             <Stack.Screen name="EditJournal" component={EditJournalScreen} />
             <Stack.Screen name="CreateJournal" component={CreateJournalScreen} />
+            <Stack.Screen name="ForgotPassword" options={{ headerShown: false }} component={ForgotPasswordEmailScreen} />
         </Stack.Navigator>
     );
 };
