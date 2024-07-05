@@ -1,7 +1,7 @@
 """main app file"""
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager, set_access_cookies
+from flask_jwt_extended import JWTManager, set_access_cookies, unset_jwt_cookies
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 import redis
@@ -43,9 +43,11 @@ def create_app():
         return token_in_redis is None  # Token is blacklisted if not found in Redis
 
     @app.after_request
-    def set_jwt_cookies(response):
-        """ Check if the response has the custom attribute 'jwt_access_token' set by a resource """
-        if hasattr(request, 'jwt_access_token'):
+    def set_or_unset_jwt_cookies(response):
+        """ Check if cookies should be set or unset based on request context """
+        if request.path == '/api/v1/logout':
+            unset_jwt_cookies(response)
+        elif hasattr(request, 'jwt_access_token'):
             access_token = request.jwt_access_token
             set_access_cookies(response, access_token)
         return response
