@@ -41,8 +41,8 @@ export const storeObject = async (key, value) => {
 // Function to retrieve an object from AsyncStorage
 export const getObject = async (key) => {
     try {
-        const jsonValue = await AsyncStorage.getItem(key);
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
+        const value = await AsyncStorage.getItem(key);
+        return value != null ? value : null;
     } catch (error) {
         console.error('Error retrieving object from AsyncStorage:', error);
         return null;
@@ -70,7 +70,7 @@ export const otpVerification = async (otp, email) => {
 
         // Check if the response status is 200
         if (response.status === 200 || response.status === 400) {
-            return response.data;
+            return response;
         } else {
             throw new Error('OTP verification failed');
         }
@@ -83,7 +83,6 @@ export const otpVerification = async (otp, email) => {
 
 // Register a new user
 export const register = async (password) => {
-    console.error(await getObject('user'))
     const { email, username } = await getObject('user');
     try {
         const response = await axios.post(`${API_BASE_URL}/register`, {
@@ -93,7 +92,7 @@ export const register = async (password) => {
         });
 
         // Handle the response as needed
-        if (response.status === 200) {
+        if (response.status === 201) {
             // automatically logins a user after successful registration
             await login(email, password)
 

@@ -21,7 +21,7 @@ const OtpVerification = ({ onVerify }) => {
         setError(''); // Clear previous error messages
         try {
             const response = await otpVerification(otp, email);
-            if (response.message === 'OTP verification successful') {
+            if (response.status === 200) {
                 onVerify();
             } else {
                 setError('Wrong OTP provided. Please try again.');

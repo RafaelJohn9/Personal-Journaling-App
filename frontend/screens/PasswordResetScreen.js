@@ -3,21 +3,15 @@ import { View, ImageBackground } from 'react-native';
 import PasswordReset from '../components/Auth/PasswordReset';
 import PasswordBackgroundImage from '../assets/images/landing.jpeg';
 import { LinearGradient } from 'expo-linear-gradient';
-import { isLoggedIn, register } from '../middlewares/authMiddleware';
+import { register } from '../middlewares/authMiddleware';
 
 const PasswordResetScreen = ({ navigation }) => {
     const handleReset = async (newPassword) => {
-        const token = isLoggedIn();
-        if (!!token) {
-            if (await register(newPassword)) {
-                navigation.navigate('JournalList');
-                return true;
-            };
-
-        } else {
-            navigation.navigate('Login');
-            return false;
-        }
+        let response = await register(newPassword)
+        if (response) {
+            navigation.navigate('JournalList');
+            return true;
+        };
     };
 
     return (

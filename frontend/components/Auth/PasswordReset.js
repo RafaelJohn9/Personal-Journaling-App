@@ -18,9 +18,8 @@ const PasswordReset = ({ onReset }) => {
                 setLoading(false); // Stop loading indicator
 
                 if (success) {
-                    // Navigate or perform success action
-                    // Example: navigation.navigate('JournalList');
-                    Alert.alert('Success', 'Password reset successfully.');
+                    navigation.navigate('JournalList');
+                    Alert.alert('Success', 'Password set is successful.');
                 } else {
                     Alert.alert('Error', 'Password reset failed. Please try again.');
                 }
