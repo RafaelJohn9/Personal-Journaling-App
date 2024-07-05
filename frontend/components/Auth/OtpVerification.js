@@ -10,8 +10,9 @@ const OtpVerification = ({ onVerify }) => {
 
     useEffect(() => {
         const fetchEmail = async () => {
-            const user = await getObject('user');
-            setEmail(user?.email || '');
+            let user = await getObject('user'); // Retrieves the user object string
+            user = JSON.parse(user) || ''; // Convert user string to Object
+            setEmail(user.email);
         };
         fetchEmail();
     }, []);

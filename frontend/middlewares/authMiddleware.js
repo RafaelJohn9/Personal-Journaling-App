@@ -83,7 +83,7 @@ export const otpVerification = async (otp, email) => {
 
 // Register a new user
 export const register = async (password) => {
-    const { email, username } = await getObject('user');
+    const { email, username } = JSON.parse(await getObject('user')); // Parsify the json string to become an object
     try {
         const response = await axios.post(`${API_BASE_URL}/register`, {
             email,

@@ -107,6 +107,9 @@ class OTPVerificationResource(Resource):
         # Retrieve the stored OTP from Redis
         stored_otp = redis_conn.get(email)
 
+        print(f"Stored otp response: {stored_otp}")
+        print(email)
+        print(otp)
         if stored_otp and stored_otp.decode('utf-8') == otp:
             return {'message': 'OTP verification successful'}, 200
         else:

@@ -9,7 +9,6 @@ const Register = ({ onRegister }) => {
     const handleRegister = async () => {
         setLoading(true); // Set loading to true before making the API call
         try {
-            // Implement register logic here
             await onRegister(email, username);
         } catch (error) {
             console.error('Registration error:', error);
