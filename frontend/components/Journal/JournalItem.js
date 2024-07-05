@@ -15,6 +15,7 @@ const JournalItem = ({ journal, onEdit, onDelete, navigator }) => {
             >
                 <Text className="text-lg font-bold">{journal.title}</Text>
                 <Text>{date}</Text>
+                <Text className="uppercase text-xs font-extrabold">{journal.category}</Text>
             </Pressable>
             <View className="flex flex-row justify-between">
                 <Pressable onPress={() => onEdit(journal)}>
