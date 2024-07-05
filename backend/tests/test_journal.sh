@@ -4,7 +4,7 @@
 API_BASE_URL="http://localhost:5000/api/v1"
 
 # Set the session web cookie (access_token_cookie)
-SESSION_COOKIE="${SESSION_COOKIE}"
+SESSION_COOKIE="access_token_cookie=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDIwNzcyMiwianRpIjoiNDUzYTRiNTktNzQ3NC00MzBlLTg0MTItMzg3MzBjOWMwZjViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InJhZmFlbGpvaGJAZ21haWwuY29tIiwibmJmIjoxNzIwMjA3NzIyLCJleHAiOjE5Nzk0MDc3MjJ9.GJiTCoZJk6Vyb5-4sFYp6vM8UE_0W9Is74EvEWassk4;"
 
 # Function to make a POST request to create a new journal
 create_journal() {
@@ -63,8 +63,8 @@ delete_journal() {
 
 # Test cases
 # Adjust these function calls based on your specific API endpoints and test scenarios
-create_journal "Test Journal 2" "Content of Test Journal 2" "Personal"
+create_journal "Test Journal 3" "Content of Test Journal 2" "Personal"
 get_all_journals
-get_journal_by_id 2
-update_journal 2 "Updated Test Journal 2" "Updated content" "Work"
-delete_journal 2
+get_journal_by_id 3
+update_journal 3 "Updated Test Journal 3" "Updated content" "Work"
+delete_journal 3
