@@ -3,15 +3,25 @@ import { View, ImageBackground } from 'react-native';
 import PasswordReset from '../components/Auth/PasswordReset';
 import PasswordBackgroundImage from '../assets/images/landing.jpeg';
 import { LinearGradient } from 'expo-linear-gradient';
-import { register } from '../middlewares/authMiddleware';
+import { register, userExists, updatePassword, getObject } from '../middlewares/authMiddleware';
 
 const PasswordResetScreen = ({ navigation }) => {
     const handleReset = async (newPassword) => {
-        let response = await register(newPassword)
-        if (response) {
+        // Parsify the json string to an object
+        const { email } = JSON.parse(await getObject('user'));
+
+        const response = await userExists(email);
+        let status = false;
+
+        if (response.exists) {
+            status = await updatePassword(email, newPassword)
+        } else {
+            status = await register(newPassword)
+        }
+        if (status) {
             navigation.navigate('JournalList');
-            return true;
         };
+        return status;
     };
 
     return (

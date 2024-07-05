@@ -20,11 +20,12 @@ const PasswordReset = ({ onReset }) => {
                 if (success) {
                     Alert.alert('Success', 'Password set is successful.');
                 } else {
-                    Alert.alert('Error', 'Password reset failed. Please try again.');
+                    Alert.alert('Error', 'Password set failed. Please try again.');
                 }
             } catch (error) {
                 setLoading(false); // Stop loading indicator on error
-                Alert.alert('Error', 'Password reset failed. Please try again.');
+                console.error(error)
+                Alert.alert('Error', 'Password Set failed. Please try again.');
             }
         } else {
             Alert.alert('Error', 'Passwords do not match');

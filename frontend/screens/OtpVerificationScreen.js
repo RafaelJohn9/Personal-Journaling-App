@@ -2,7 +2,6 @@ import React from 'react';
 import { View, ImageBackground } from 'react-native';
 import OtpVerification from '../components/Auth/OtpVerification';
 import OTPBackgroundImage from '../assets/images/landing.jpeg';
-import { LinearGradient } from 'expo-linear-gradient';
 
 const OtpVerificationScreen = ({ navigation }) => {
     const handleVerify = () => {

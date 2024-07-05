@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 from flask import request
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
-    create_access_token, jwt_required, get_jwt, unset_jwt_cookies, decode_token
+    create_access_token, jwt_required, get_jwt, decode_token
 )
 from app import db, redis_conn
 from app.models.user import User
@@ -107,6 +107,58 @@ class OTPVerificationResource(Resource):
         stored_otp = redis_conn.get(email)
 
         if stored_otp and stored_otp.decode('utf-8') == otp:
+            # Genereating an access token after otp verification
+
+            # search for user
+            user = User.query.filter_by(email=email).first()
+            if user:
+                access_token = create_access_token(identity=email)
+
+                # Decode the access token to retrieve its claims
+                decoded_token = decode_token(access_token)
+                jti = decoded_token["jti"]
+                expiration = decoded_token["exp"]
+
+                # Calculate token TTL
+                now = datetime.now(timezone.utc)
+                ttl = expiration - int(now.timestamp())
+
+                # Store token in Redis
+                redis_conn.setex(jti, timedelta(seconds=ttl), email)
+
+                # Set access token as a cookie
+                request.jwt_access_token = access_token
             return {'message': 'OTP verification successful'}, 200
         else:
             return {'message': 'OTP verification failed'}, 400
+
+
+class CheckUserExists(Resource):
+    """ Checks if a user exists in the database """
+    def post(self):
+        """ post method to check if user exists"""
+        data = request.get_json()
+        email = data.get('email')
+
+        user = User.query.filter_by(email=email).first()
+        if user:
+            return {'message': 'User exists'}, 200
+        else:
+            return {'message': 'User does not exist'}, 404
+
+class UpdatePassword(Resource):
+    """ Updates a user's password """
+    @jwt_required()
+    def post(self):
+        """ post method to update user's password """
+        data = request.get_json()
+        email = data.get('email')
+        new_password = data.get('new_password')
+
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.set_password(new_password)
+            db.session.commit()
+            return {'message': 'Password updated successfully'}, 200
+        else:
+            return {'message': 'User not found'}, 404

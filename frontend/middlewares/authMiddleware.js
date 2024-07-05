@@ -72,13 +72,25 @@ export const requestOtp = async (email) => {
 };
 
 
-// OTP verification
+// OTP verification returns response
 export const otpVerification = async (otp, email) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/verify_otp`, { otp, email });
 
         // Check if the response status is 200
-        if (response.status === 200 || response.status === 400) {
+        if (response.status === 200) {
+
+            // Check if access_token_cookie exists in the response headers
+            const accessTokenCookie = response.headers['set-cookie'][0];
+            console.error(accessTokenCookie)
+            if (accessTokenCookie) {
+                // Extract the access_token from the cookie string
+                const accessToken = accessTokenCookie.split(';')[0].split('=')[1];
+                // Set the access_token in cookies
+                await AsyncStorage.setItem('access_token', accessToken);
+            }
+            return response;
+        } else if (response.status === 400) {
             return response;
         } else {
             throw new Error('OTP verification failed');
@@ -117,7 +129,6 @@ export const register = async (password) => {
 
 
 // Login a user
-
 export const login = async (email, password) => {
     try {
         // Perform login API call to obtain access token
@@ -143,7 +154,7 @@ export const login = async (email, password) => {
     }
 };
 
-
+// logout
 export const logout = async () => {
     try {
         const headers = await getAuthHeaders();
@@ -154,6 +165,48 @@ export const logout = async () => {
         }
         return false;
     } catch (error) {
+        throw error;
+    }
+};
+
+export const updatePassword = async (email, newPassword) => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.post(`${API_BASE_URL}/update_password`, {
+            email,
+            new_password: newPassword
+        },
+            { headers });
+
+        // Handle the response as needed
+        if (response.status === 200) {
+            await login(email, newPassword)
+            return response;
+        } else {
+            throw new Error('Failed to update password');
+        }
+    } catch (error) {
+        console.error('Error updating password:', error);
+        throw error;
+    }
+};
+
+export const userExists = async (email) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/check_user_exists`, {
+            email
+        });
+
+        // Handle the response as needed
+        if (response.status === 200) {
+            return { exists: true, message: 'User exists' };
+        } else if (response.status === 404) {
+            return { exists: false, message: 'User does not exist' };
+        } else {
+            throw new Error('Failed to check if user exists');
+        }
+    } catch (error) {
+        console.error('Error checking if user exists:', error);
         throw error;
     }
 };
