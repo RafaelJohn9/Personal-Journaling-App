@@ -3,7 +3,7 @@
 This module component is used for authorization purposes.
 """
 from datetime import datetime, timedelta, timezone
-from flask import request, jsonify
+from flask import request
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
     create_access_token, jwt_required, get_jwt, unset_jwt_cookies, decode_token
@@ -72,9 +72,9 @@ class Logout(Resource):
         jti = get_jwt()["jti"]
         redis_conn.delete(jti)
 
-        response = jsonify({'message': 'Logout successful'})
+        response = {'message': 'Logout successful'}
         unset_jwt_cookies(response)  # Remove cookies on logout
-        return response
+        return response, 200
 
 class SendOTPResource(Resource):
     """ Sends OTP via email"""
@@ -90,7 +90,7 @@ class SendOTPResource(Resource):
         store_otp_in_redis(email, otp)
         send_otp_email(email, otp)
 
-        return jsonify(message='OTP sent to your email')
+        return {'message': 'OTP sent to your email'}, 200
 
 class OTPVerificationResource(Resource):
     """ Verifies the OTP sent to the user's email """
