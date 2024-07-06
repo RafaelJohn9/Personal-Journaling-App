@@ -1,7 +1,7 @@
 #!/bin/env bash
 
 # Set your API base URL
-API_BASE_URL="http://localhost:5000/api/v1"
+API_BASE_URL="http://206.189.123.133:8000/api/v1"
 
 # Set the session web cookie (access_token_cookie)
 SESSION_COOKIE="${SESSION_COOKIE}"
