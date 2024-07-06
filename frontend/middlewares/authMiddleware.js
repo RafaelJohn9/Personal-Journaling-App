@@ -4,7 +4,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import { API_BASE_URL } from './globals';
 
-// checks if a user is logged in
+
+/**
+ * Checks if a user is logged in
+ * @returns {Promise<boolean>} - Returns true if the user is logged in, false otherwise
+ */
 export const isLoggedIn = async () => {
     try {
         const accessToken = await AsyncStorage.getItem('access_token');
@@ -28,7 +32,12 @@ export const isLoggedIn = async () => {
     }
 };
 
-//  Authentication Headers needed for authenticated users
+
+/**
+ * Authentication Headers needed for authenticated users
+ * @returns {Promise<Object>} - Returns an object with the authentication headers
+ * @throws {Error} - Throws an error if no access token is found
+ */
 export const getAuthHeaders = async () => {
     const token = await getObject('access_token');
     if (!token) {
@@ -37,7 +46,13 @@ export const getAuthHeaders = async () => {
     return { 'Cookie': `access_token=${token}` };
 };
 
-// Function to store an object from AsyncStorage
+
+/**
+ * Function to store an object in AsyncStorage
+ * @param {string} key - The key under which the object will be stored
+ * @param {Object} value - The object to store
+ * @returns {Promise<void>}
+ */
 export const storeObject = async (key, value) => {
     try {
         const jsonValue = JSON.stringify(value);
@@ -47,7 +62,12 @@ export const storeObject = async (key, value) => {
     }
 };
 
-// Function to retrieve an object from AsyncStorage
+
+/**
+ * Function to retrieve an object from AsyncStorage
+ * @param {string} key - The key of the object to retrieve
+ * @returns {Promise<Object|null>} - Returns the retrieved object or null if not found
+ */
 export const getObject = async (key) => {
     try {
         const value = await AsyncStorage.getItem(key);
@@ -58,7 +78,12 @@ export const getObject = async (key) => {
     }
 };
 
-// requests OTP for user approval
+/**
+ * Requests OTP for user approval
+ * @param {string} email - The email of the user
+ * @returns {Promise<Object>} - Returns the OTP data
+ * @throws {Error} - Throws an error if the request fails
+ */
 export const requestOtp = async (email) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/send_otp`, { email });
@@ -72,7 +97,13 @@ export const requestOtp = async (email) => {
 };
 
 
-// OTP verification returns response
+/**
+ * OTP verification
+ * @param {string} otp - The OTP to verify
+ * @param {string} email - The email of the user
+ * @returns {Promise<Object>} - Returns the response from the OTP verification endpoint
+ * @throws {Error} - Throws an error if OTP verification fails
+ */
 export const otpVerification = async (otp, email) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/verify_otp`, { otp, email });
@@ -102,7 +133,12 @@ export const otpVerification = async (otp, email) => {
 };
 
 
-// Register a new user
+/**
+ * Registers a new user
+ * @param {string} password - The password for the new user
+ * @returns {Promise<boolean>} - Returns true if registration is successful, false otherwise
+ * @throws {Error} - Throws an error if registration fails
+ */
 export const register = async (password) => {
     const { email, username } = JSON.parse(await getObject('user')); // Parsify the json string to become an object
     try {
@@ -128,7 +164,14 @@ export const register = async (password) => {
 };
 
 
-// Login a user
+
+/**
+ * Logs in a user
+ * @param {string} email - The email of the user
+ * @param {string} password - The password of the user
+ * @returns {Promise<Object>} - Returns a message indicating login success
+ * @throws {Error} - Throws an error if login fails
+ */
 export const login = async (email, password) => {
     try {
         // Perform login API call to obtain access token
@@ -154,7 +197,12 @@ export const login = async (email, password) => {
     }
 };
 
-// logout
+
+/**
+ * Logs out a user
+ * @returns {Promise<boolean>} - Returns true if logout is successful, false otherwise
+ * @throws {Error} - Throws an error if logout fails
+ */
 export const logout = async () => {
     try {
         const headers = await getAuthHeaders();
@@ -169,6 +217,14 @@ export const logout = async () => {
     }
 };
 
+
+/**
+ * Updates a user's password
+ * @param {string} email - The email of the user
+ * @param {string} newPassword - The new password for the user
+ * @returns {Promise<Object>} - Returns the response from the update password endpoint
+ * @throws {Error} - Throws an error if updating the password fails
+ */
 export const updatePassword = async (email, newPassword) => {
     try {
         const headers = await getAuthHeaders();
@@ -191,6 +247,13 @@ export const updatePassword = async (email, newPassword) => {
     }
 };
 
+
+/**
+ * Checks if a user exists
+ * @param {string} email - The email of the user
+ * @returns {Promise<Object>} - Returns an object indicating if the user exists and a message
+ * @throws {Error} - Throws an error if checking if the user exists fails
+ */
 export const userExists = async (email) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/check_user_exists`, {

@@ -5,13 +5,20 @@ import { Ionicons } from '@expo/vector-icons';
 const JournalItem = ({ journal, onEdit, onDelete, navigator }) => {
     const journalDate = new Date(journal.date)
     const year = journalDate.getFullYear();
-    const month = journalDate.getMonth();
+    const month = journalDate.getMonth() + 1;
     const day = journalDate.getDate();
     const date = `${day}/${month}/${year}`;
     return (
         <View className="p-2 border-b border-gray-200 flex flex-row justify-between  overflow-x-auto w-10/12">
             <Pressable
-                onPress={() => navigator.navigate('EditJournal', { journal })}
+                onPress={() => {
+                    navigator.navigate({
+                        name: 'EditJournal',
+                        key: Date.now().toString(),
+                        params: { journal }
+                    });
+                }
+                }
             >
                 <Text className="text-lg font-bold">{journal.title}</Text>
                 <Text>{date}</Text>

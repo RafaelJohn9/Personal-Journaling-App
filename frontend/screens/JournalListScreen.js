@@ -43,7 +43,11 @@ const JournalListScreen = ({ navigation }) => {
 
     const handleEditJournal = (journal) => {
         // Navigate to EditJournalScreen with the journal ID
-        navigation.navigate('EditJournal', { journal });
+        navigation.navigate({
+            name: 'EditJournal',
+            key: Date.now().toString(),
+            params: { journal }
+        });
     };
 
     const handleDeleteJournal = async (id) => {
@@ -80,9 +84,9 @@ const JournalListScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView className="flex-1 mt-8">
+        <SafeAreaView className="flex-1 mt-4">
             <View className="flex flex-row justify-between p-4 border-b border-gray-300">
-                <Text className="text-lg uppercase font-extrabold">Journal List</Text>
+                <Text className="text-lg uppercase font-extrabold">Personal Journals</Text>
                 <View className="flex flex-row">
                     <Pressable onPress={() => navigation.navigate('CreateJournal')}>
                         <Ionicons name="add-circle-outline" size={30} color="blue" />

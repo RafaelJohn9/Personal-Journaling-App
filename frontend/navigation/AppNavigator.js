@@ -20,7 +20,7 @@ const AppNavigator = () => {
             <Stack.Screen name="Register" options={{ headerShown: false }} component={RegisterScreen} />
             <Stack.Screen name="OtpVerification" options={{ headerShown: false }} component={OtpVerificationScreen} />
             <Stack.Screen name="PasswordReset" options={{ headerShown: false }} component={PasswordResetScreen} />
-            <Stack.Screen name="JournalList" options={{ headerShown: false }} component={JournalListScreen} />
+            <Stack.Screen name="JournalList" options={{ headerShown: true }} component={JournalListScreen} />
             <Stack.Screen name="EditJournal" component={EditJournalScreen} />
             <Stack.Screen name="CreateJournal" component={CreateJournalScreen} />
             <Stack.Screen name="ForgotPassword" options={{ headerShown: false }} component={ForgotPasswordEmailScreen} />

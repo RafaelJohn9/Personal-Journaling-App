@@ -39,7 +39,7 @@ const CreateJournalScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView className="flex-1 mt-8">
+        <SafeAreaView className="flex-1 mt-4">
             <View className="flex-1 justify-center p-4 w-screen mx-2">
                 <Text className="text-3xl font-bold mb-4 text-center uppercase text-slate-300">Create Journal</Text>
                 <View className="mb-4">
