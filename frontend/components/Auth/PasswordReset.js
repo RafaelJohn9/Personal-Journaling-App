@@ -6,32 +6,36 @@ const PasswordReset = ({ onReset }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false); // State to manage loading indicator
+    const [loading, setLoading] = useState(false);
 
     const handleReset = async () => {
-        if (newPassword === confirmPassword) {
-            setLoading(true); // Start loading indicator
+        if (!newPassword || !confirmPassword) {
+            Alert.alert('Error', 'Password fields cannot be empty');
+            return;
+        }
 
-            try {
-                const success = await onReset(newPassword);
-
-                setLoading(false); // Stop loading indicator
-
-                if (success) {
-                    Alert.alert('Success', 'Password set is successful.');
-                } else {
-                    Alert.alert('Error', 'Password set failed. Please try again.');
-                }
-            } catch (error) {
-                setLoading(false); // Stop loading indicator on error
-                console.error(error)
-                Alert.alert('Error', 'Password Set failed. Please try again.');
-            }
-        } else {
+        if (newPassword !== confirmPassword) {
             Alert.alert('Error', 'Passwords do not match');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const success = await onReset(newPassword);
+
+            setLoading(false);
+
+            if (success) {
+                Alert.alert('Success', 'Password reset is successful.');
+            } else {
+                Alert.alert('Error', 'Password reset failed. Please try again.');
+            }
+        } catch (error) {
+            setLoading(false);
+            console.error('Password reset error:', error);
+            Alert.alert('Error', 'Password reset failed. Please try again.');
         }
     };
-
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

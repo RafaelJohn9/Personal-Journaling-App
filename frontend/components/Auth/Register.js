@@ -4,28 +4,55 @@ import { View, Text, TextInput, Pressable, ActivityIndicator } from 'react-nativ
 const Register = ({ onRegister }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [loading, setLoading] = useState(false); // State to manage loading state
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [emailError, setEmailError] = useState('');
+
+    const validateEmail = (email) => {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    };
 
     const handleRegister = async () => {
-        setLoading(true); // Set loading to true before making the API call
+        setError('');
+        setEmailError('');
+
+        if (!username.trim()) {
+            setError('Username cannot be empty');
+            return;
+        }
+
+        if (!email.trim()) {
+            setError('Email cannot be empty');
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            setEmailError('Please enter a valid email address');
+            return;
+        }
+
+        setLoading(true);
         try {
             await onRegister(email, username);
         } catch (error) {
+            setError('Registration failed. Please try again.');
             console.error('Registration error:', error);
         } finally {
-            setLoading(false); // Reset loading state after API call completes
+            setLoading(false);
         }
     };
 
     return (
         <View className="flex-1 justify-center w-screen">
             <Text className="text-2xl font-bold mb-4 text-center uppercase text-slate-200">Register</Text>
+            {error ? <Text className="text-red-500 text-center mb-2">{error}</Text> : null}
+            {emailError ? <Text className="text-red-500 text-center mb-2">{emailError}</Text> : null}
             <TextInput
                 className="border py-2 px-6 mb-4 text-slate-200 rounded-full w-3/4 mx-auto border-slate-400 text-lg placeholder:text-center shadow-md shadow-slate-400"
                 placeholder="Username"
                 value={username}
                 onChangeText={setUsername}
-                keyboardType="username"
                 autoCapitalize="none"
             />
             <TextInput
@@ -39,7 +66,7 @@ const Register = ({ onRegister }) => {
             <Pressable
                 className="bg-blue-500 p-3 mx-auto w-3/4 rounded-full"
                 onPress={handleRegister}
-                disabled={loading} // Disable button when loading
+                disabled={loading}
             >
                 {loading ? (
                     <ActivityIndicator size="small" color="#ffffff" />

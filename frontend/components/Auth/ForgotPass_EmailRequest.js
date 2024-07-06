@@ -1,16 +1,36 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, Pressable, ActivityIndicator, Alert } from 'react-native';
 
 const ForgotPasswordEmailRequest = ({ onRegister }) => {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false); // State to manage loading state
+    const [error, setError] = useState(null); // State to manage error messages
+
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
 
     const handleRegister = async () => {
+        if (!email) {
+            setError('Email cannot be empty.');
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            setError('Please enter a valid email address.');
+            return;
+        }
+
         setLoading(true); // Set loading to true before making the API call
+        setError(null); // Clear any previous errors
+
         try {
             await onRegister(email);
+            Alert.alert('Success', 'Email verification sent. Please check your inbox.');
         } catch (error) {
             console.error('Email Verification error:', error);
+            setError('Failed to send verification email. Please try again.');
         } finally {
             setLoading(false); // Reset loading state after API call completes
         }
@@ -27,6 +47,7 @@ const ForgotPasswordEmailRequest = ({ onRegister }) => {
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
+            {error && <Text className="text-red-500 text-center mb-4">{error}</Text>}
             <Pressable
                 className="bg-blue-500 p-3 mx-auto w-3/4 rounded-full"
                 onPress={handleRegister}

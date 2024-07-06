@@ -113,7 +113,6 @@ export const otpVerification = async (otp, email) => {
 
             // Check if access_token_cookie exists in the response headers
             const accessTokenCookie = response.headers['set-cookie'][0];
-            console.error(accessTokenCookie)
             if (accessTokenCookie) {
                 // Extract the access_token from the cookie string
                 const accessToken = accessTokenCookie.split(';')[0].split('=')[1];
@@ -263,14 +262,18 @@ export const userExists = async (email) => {
         // Handle the response as needed
         if (response.status === 200) {
             return { exists: true, message: 'User exists' };
-        } else if (response.status === 404) {
-            return { exists: false, message: 'User does not exist' };
         } else {
+            // For any status code other than 200, treat it as an error
             throw new Error('Failed to check if user exists');
         }
     } catch (error) {
-        console.error('Error checking if user exists:', error);
-        throw error;
+        // Check specifically for a 404 error
+        if (error.response && error.response.status === 404) {
+            return { exists: false, message: 'User does not exist' };
+        } else {
+            console.error('Error checking if user exists:', error);
+            throw error;
+        }
     }
 };
 

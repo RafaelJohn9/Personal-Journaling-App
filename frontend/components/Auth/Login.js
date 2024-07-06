@@ -1,23 +1,42 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, Pressable, ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { login } from '../../middlewares/authMiddleware'; // Import the login function
 import { useNavigation } from '@react-navigation/native'; // Import navigation hook
 
-const Login = ({ navigation }) => {
+const Login = () => {
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
     const handleLogin = async () => {
+        if (!email || !password) {
+            setError('Email and password cannot be empty.');
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            setError('Please enter a valid email address.');
+            return;
+        }
+
         setLoading(true);
         setError(null);
+
         try {
             const response = await login(email, password);
             if (response) {
                 navigation.navigate('JournalList'); // Navigate to JournalList on successful login
+            } else {
+                setError('Login failed. Please check your credentials and try again.');
             }
         } catch (error) {
             setError('Login failed. Please check your credentials and try again.');
@@ -52,7 +71,6 @@ const Login = ({ navigation }) => {
                 <Pressable className="p-2" onPress={togglePasswordVisibility}>
                     <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={24} color="black" />
                 </Pressable>
-
             </View>
             {error && <Text className="text-red-500 text-center mb-4">{error}</Text>}
             <Pressable className="bg-blue-500 p-3 rounded-full flex items-center justify-center" onPress={handleLogin} disabled={loading}>

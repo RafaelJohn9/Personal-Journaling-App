@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, Pressable, ActivityIndicator, Alert } from 'react-native';
 import { otpVerification, getObject } from '../../middlewares/authMiddleware';
 
 const OtpVerification = ({ onVerify }) => {
@@ -10,14 +10,23 @@ const OtpVerification = ({ onVerify }) => {
 
     useEffect(() => {
         const fetchEmail = async () => {
-            let user = await getObject('user'); // Retrieves the user object string
-            user = JSON.parse(user) || ''; // Convert user string to Object
-            setEmail(user.email);
+            try {
+                let user = await getObject('user'); // Retrieves the user object string
+                user = JSON.parse(user) || ''; // Convert user string to Object
+                setEmail(user.email);
+            } catch (error) {
+                console.error('Error fetching email:', error);
+            }
         };
         fetchEmail();
     }, []);
 
     const handleVerify = async () => {
+        if (otp.length !== 6) {
+            setError('OTP must be exactly 6 digits');
+            return;
+        }
+
         setLoading(true);
         setError(''); // Clear previous error messages
         try {
@@ -25,10 +34,10 @@ const OtpVerification = ({ onVerify }) => {
             if (response.status === 200) {
                 onVerify();
             } else {
-                setError('Wrong OTP provided. Please try again.');
+                setError('Invalid OTP. Please try again.');
             }
         } catch (error) {
-            setError('Wrong OTP provided. Please try again.');
+            setError('OTP verification failed. Please try again.');
             console.error('OTP verification error:', error);
         } finally {
             setLoading(false);
@@ -39,7 +48,7 @@ const OtpVerification = ({ onVerify }) => {
         <View className="flex-1 justify-center p-4">
             <Text className="text-2xl font-bold mb-4 text-center">OTP Verification</Text>
             <Text className="text-md font-bold mb-4 text-center">
-                An OTP has been sent to your email, Please enter it to confirm your email.
+                An OTP has been sent to your email. Please enter it to confirm your email.
             </Text>
             <TextInput
                 className="border p-2 mb-4 rounded-xl placeholder:text-center text-slate-700 text-lg"
