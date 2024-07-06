@@ -1,5 +1,4 @@
 alembic==1.13.2
-alembic==1.7.6.dev0
 Flask==3.0.3
 Flask_JWT_Extended==4.6.0
 Flask_Migrate==4.0.7
