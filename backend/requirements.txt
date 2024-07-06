@@ -8,5 +8,4 @@ pytest==8.2.2
 python-dotenv==1.0.1
 redis==5.0.1
 SQLAlchemy==2.0.30
-SQLAlchemy==1.4.31
 Werkzeug==3.0.3
