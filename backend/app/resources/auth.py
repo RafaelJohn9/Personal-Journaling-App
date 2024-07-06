@@ -167,25 +167,23 @@ class OTPVerificationResource(Resource):
             if stored_otp and stored_otp.decode('utf-8') == otp:
                 # Generating an access token after OTP verification
 
-                # Search for user
-                user = User.query.filter_by(email=email).first()
-                if user:
-                    access_token = create_access_token(identity=email)
+                # Send OTP
+                access_token = create_access_token(identity=email)
 
-                    # Decode the access token to retrieve its claims
-                    decoded_token = decode_token(access_token)
-                    jti = decoded_token["jti"]
-                    expiration = decoded_token["exp"]
+                # Decode the access token to retrieve its claims
+                decoded_token = decode_token(access_token)
+                jti = decoded_token["jti"]
+                expiration = decoded_token["exp"]
 
-                    # Calculate token TTL
-                    now = datetime.now(timezone.utc)
-                    ttl = expiration - int(now.timestamp())
+                # Calculate token TTL
+                now = datetime.now(timezone.utc)
+                ttl = expiration - int(now.timestamp())
 
-                    # Store token in Redis
-                    redis_conn.setex(jti, timedelta(seconds=ttl), email)
+                # Store token in Redis
+                redis_conn.setex(jti, timedelta(seconds=ttl), email)
 
-                    # Set access token as a cookie
-                    request.jwt_access_token = access_token
+                # Set access token as a cookie
+                request.jwt_access_token = access_token
                 return {'message': 'OTP verification successful'}, 200
             else:
                 return {'message': 'OTP verification failed'}, 400
