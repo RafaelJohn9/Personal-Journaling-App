@@ -1,7 +1,10 @@
+
 """main app file"""
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager, set_access_cookies, unset_jwt_cookies
+from flask_jwt_extended import (
+    JWTManager, set_access_cookies, unset_jwt_cookies, verify_jwt_in_request
+                                 )
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 import redis
@@ -18,7 +21,6 @@ def create_app():
     load_dotenv()
 
     # Localized import for configuration to avoid circular dependencies
-    # Use __import__ to dynamically import the Config class
     from app.config import Config # pylint: disable=import-outside-toplevel
     app.config.from_object(Config)
     migrate = Migrate()
@@ -35,6 +37,11 @@ def create_app():
     from app.api_v1 import api_bp  # pylint: disable=import-outside-toplevel
     app.register_blueprint(api_bp, url_prefix='/api/v1')
 
+    # Registering error handlers
+    from app.resources import errors # pylint: disable=import-outside-toplevel
+    errors.register_error_handlers(app)
+
+    # checks if token is blacklisted
     @jwt.token_in_blocklist_loader
     def check_if_token_in_blocklist(jwt_header, jwt_payload):  # pylint: disable=unused-argument
         """ checks if tokei is blacklisted in redis """
@@ -42,6 +49,23 @@ def create_app():
         token_in_redis = redis_conn.get(jti)
         return token_in_redis is None  # Token is blacklisted if not found in Redis
 
+
+    # Before Request Handler to check JWT token if required
+    endpoints_not_requiring_auth = [
+                                    'api.register', 'api.login', 'api.checkuserexists', 
+                                    'api.sendotpresource', 'api.otpverificationresource',
+                                    ]
+    @app.before_request
+    def check_jwt_token():
+        """ Verify JWT token only if the endpoint requires authentication """
+        if request.endpoint not in endpoints_not_requiring_auth:
+            try:
+                verify_jwt_in_request()
+            except Exception as e: # pylint: disable=broad-exception-caught
+                return jsonify({'message': str(e)}), 401  # Return 401 Unauthorized
+
+
+    # sets or unsets jwt cookies
     @app.after_request
     def set_or_unset_jwt_cookies(response):
         """ Check if cookies should be set or unset based on request context """

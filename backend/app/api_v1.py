@@ -14,13 +14,16 @@ api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
 
 # User Auth endpoints
+# require no tokens
 api.add_resource(Register, '/register')
 api.add_resource(Login, '/login')
-api.add_resource(Logout, '/logout')
 api.add_resource(SendOTPResource, '/send_otp')
 api.add_resource(OTPVerificationResource, '/verify_otp')
 api.add_resource(CheckUserExists, '/check_user_exists')
+# require tokens
 api.add_resource(UpdatePassword, '/update_password')
+api.add_resource(Logout, '/logout')
+
 
 # Journal endpoints
 api.add_resource(JournalListResource, '/journals')

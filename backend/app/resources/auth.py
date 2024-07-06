@@ -11,7 +11,7 @@ from flask_jwt_extended import (
     create_access_token, jwt_required, get_jwt, decode_token, JWTManager,
 )
 from flask_jwt_extended.exceptions import NoAuthorizationError
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from app import db, redis_conn
 from app.models.user import User
 from app.utils.otp import generate_otp, store_otp_in_redis, send_otp_email
@@ -23,9 +23,6 @@ class Register(Resource):
 
     def post(self):
         """Used for user registration
-
-        Arguments:
-        None
 
         Returns:
         JSON response with a message and status code
@@ -45,6 +42,8 @@ class Register(Resource):
             db.session.commit()
 
             return {'message': 'User created successfully'}, 201
+        except IntegrityError:
+            return {'message': 'User exists'}, 409
         except SQLAlchemyError as e:
             db.session.rollback()
             return {'message': 'Database error: ' + str(e)}, 500
@@ -56,9 +55,6 @@ class Login(Resource):
 
     def post(self):
         """Used for user login
-
-        Arguments:
-        None
 
         Returns:
         JSON response with a message and status code
@@ -105,9 +101,6 @@ class Logout(Resource):
     def post(self):
         """Used for user logout
 
-        Arguments:
-        None
-
         Returns:
         JSON response with a message and status code
         """
@@ -129,9 +122,6 @@ class SendOTPResource(Resource):
 
     def post(self):
         """Post method for requesting OTP via email
-
-        Arguments:
-        None
 
         Returns:
         JSON response with a message and status code
@@ -158,10 +148,7 @@ class OTPVerificationResource(Resource):
 
     def post(self):
         """Post method for verifying OTP
-
-        Arguments:
-        None
-
+        
         Returns:
         JSON response with a message and status code
         """
@@ -213,9 +200,6 @@ class CheckUserExists(Resource):
     def post(self):
         """Post method to check if user exists
 
-        Arguments:
-        None
-
         Returns:
         JSON response with a message and status code
         """
@@ -239,9 +223,6 @@ class UpdatePassword(Resource):
     @jwt_required()
     def post(self):
         """Post method to update user's password
-
-        Arguments:
-        None
 
         Returns:
         JSON response with a message and status code

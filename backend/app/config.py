@@ -8,7 +8,7 @@ import os
 class Config:
     """ This class contains the configuration settings for the application."""
     # env var
-    DB_USERNAME_PASSWORD = os.getenv("DB_USERNAME_PASSWORD", "root:")
+    DB_USERNAME_PASSWORD = os.getenv("DB_USERNAME_PASSWORD", "johnmkagunda:")
 
     # configuration
     SECRET_KEY =  os.getenv('SECRET_KEY', "secret key")
