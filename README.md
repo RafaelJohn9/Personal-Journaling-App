@@ -7,8 +7,8 @@ I have put a lot of effort to make the finished app available to those:
 - who want to see how the app works like testing the api endpoints and running  the Frontend locally
 - who want to test the whole app locally
 
-**Okay let's get started:**
-    For starters here is the demo of the working app:
+**Okay, let's get started:**
+    For starters, here is the demo of the working app:
 
 ### App Demo:
 #### [https://youtu.be/8AJ0KJUAmpg](https://youtu.be/8AJ0KJUAmpg)
@@ -20,7 +20,7 @@ As for the  steps of downloading it:
 
 
 - **When the zip file has finished downloading, unzip it then download the apk found inside it *(personaljournal.apk)* from an *android mobile device* (sadly I was not able to deploy on ios devices due to unavoidable circumstances)**
-    - **incase of *"app not installed errors"*:**
+    - **incase of *"app not installed*" errors:**
         - **Try to:**
             - **Switch of google play protect first then try installing it again**
             - **allow installation from unknown app sources**
@@ -68,4 +68,43 @@ expo start
 
 ----
 ## Backend setup
-For the Backend I made a docker image for it to prevent library conflicts some dependencies though are needed locally.
+#### There is no need for setting up the Backend as it runs at:
+```
+https://www.johnmkagunda.me/api/v2/<endpoint>
+```
+
+#### Though to still run it, please follow through
+For the Backend, I made a docker image for it to prevent library conflicts though there are some dependencies needed locally.
+
+```
+MySQL (server and client) >= 5.7
+Redis
+Docker
+```
+If you don't have them refer please install them.
+
+1. After this you are needed to run mysql
+```bash
+mysql
+```
+
+2. Run this inside mysql shell
+```sql
+CREATE DATABASE journaling_db;
+CREATE USER 'journal_user'@'localhost' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON journaling_db.* TO 'journal_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+3. Run the script to set it up
+```bash
+cd Personal-Journaling-App/backend
+./run.sh 
+```
+
+*And you are done!*
+
+For more on each End's architecture please refer to:
+- [Frontend/README.md](https://github.com/RafaelJohn9/Personal-Journaling-App/blob/main/frontend/README.md) - contains what each file and dir accomplishes
+- [Backend/README.md](https://github.com/RafaelJohn9/Personal-Journaling-App/blob/main/backend/README.md) - Detailed view on the API endpoints
