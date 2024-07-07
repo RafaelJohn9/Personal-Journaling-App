@@ -35,7 +35,7 @@ def create_app():
 
     # Localized import for API blueprint registration
     from app.api_v1 import api_bp  # pylint: disable=import-outside-toplevel
-    app.register_blueprint(api_bp, url_prefix='/api/v1')
+    app.register_blueprint(api_bp, url_prefix='/api/v2')
 
     # Registering error handlers
     from app.resources import errors # pylint: disable=import-outside-toplevel
