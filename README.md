@@ -60,7 +60,7 @@ yarn install
 ```
 **6. Run the app**
 ```bash
-expo start
+npx expo start
 ```
 
 
@@ -73,7 +73,7 @@ expo start
 https://www.johnmkagunda.me/api/v2/<endpoint>
 ```
 
-#### If you still to build and run it locally, please follow through
+#### If you still wish to build and run it locally, please follow through
 For the Backend, I made a docker image for it to prevent library conflicts though there are some dependencies needed locally.
 
 ```
