@@ -1,10 +1,10 @@
 #!/bin/env bash
 
 # Set your API base URL
-API_BASE_URL="http://206.189.123.133:8000/api/v1"
+API_BASE_URL="https://www.johnmkagunda.me/api/v2"
 
 # Set the session web cookie (access_token_cookie)
-SESSION_COOKIE="${SESSION_COOKIE}"
+SESSION_COOKIE="${SESSSION_COOKIE}"
 
 # Function to make a POST request to create a new journal
 create_journal() {
