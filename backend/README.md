@@ -36,61 +36,83 @@ The backend architecture of the Personal Journal App is structured as follows:
 
 ## Routes and Endpoints
 
+## BaseUrl = URL/api/v2
+
+*Wish to test: try [https://www.johnmkagunda.me/api/v2/<endpoint\>](https://www.johnmkagunda.me/api/v2/<endpoint>)*
+
 ### Authentication Routes (`auth.py`)
 
 1. **Register User**
    - **Method:** `POST`
-   - **Endpoint:** `/api/v2/auth/register`
+   - **Endpoint:** `/register`
    - **Description:** Registers a new user.
    - **Importance:** Allows new users to create an account in the system.
 
 2. **Login User**
    - **Method:** `POST`
-   - **Endpoint:** `/api/v2/auth/login`
+   - **Endpoint:** `/login`
    - **Description:** Authenticates a user and returns a JWT token.
    - **Importance:** Provides a way for users to log in and access protected routes.
 
-3. **OTP Verification**
+3. **Logout User**
    - **Method:** `POST`
-   - **Endpoint:** `/api/v2/auth/verify-otp`
+   - **Endpoint:** `/logout`
+   - **Description:** Revokes a users access token thus logging out.
+   - **Importance:** Provides a way for users to log out.
+
+4. **Send OTP**
+   - **Method:** `POST`
+   - **Endpoint:** `/send_otp`
+   - **Description:** Sends OTP to the user's email
+   - **Importance:** Ensures that the user has access to the provided email address.
+
+5. **OTP Verification**
+   - **Method:** `POST`
+   - **Endpoint:** `/verify_otp`
    - **Description:** Verifies the OTP sent to the user's email.
    - **Importance:** Ensures that the user has access to the provided email address.
 
-4. **Password Reset**
+6. **Password Reset**
    - **Method:** `POST`
-   - **Endpoint:** `/api/v2/auth/reset-password`
+   - **Endpoint:** `/update_password`
    - **Description:** Allows users to reset their password.
    - **Importance:** Provides a mechanism for users to regain access to their accounts if they forget their password.
+
+7. **Check User Exists**
+   - **Method:** `POST`
+   - **Endpoint:** `/check_user_exists`
+   - **Description:** Checks if a user exists in the database
+   - **Importance:**  Maybe used as pings for security purposes
 
 ### Journal Routes (`journal_endpoints.py`)
 
 1. **Create Journal Entry**
    - **Method:** `POST`
-   - **Endpoint:** `/api/v2/journals`
+   - **Endpoint:** `/journals`
    - **Description:** Creates a new journal entry.
    - **Importance:** Allows users to create and store journal entries.
 
 2. **Get All Journal Entries**
    - **Method:** `GET`
-   - **Endpoint:** `/api/v2/journals`
+   - **Endpoint:** `/journals`
    - **Description:** Retrieves all journal entries for the authenticated user.
    - **Importance:** Enables users to view their journal entries.
 
 3. **Get Single Journal Entry**
    - **Method:** `GET`
-   - **Endpoint:** `/api/v2/journals/<journal_id>`
+   - **Endpoint:** `/journals/<journal_id>`
    - **Description:** Retrieves a single journal entry by its ID.
    - **Importance:** Allows users to view specific journal entries.
 
 4. **Update Journal Entry**
    - **Method:** `PUT`
-   - **Endpoint:** `/api/v2/journals/<journal_id>`
+   - **Endpoint:** `/journals/<journal_id>`
    - **Description:** Updates an existing journal entry by its ID.
    - **Importance:** Provides functionality for users to edit their journal entries.
 
 5. **Delete Journal Entry**
    - **Method:** `DELETE`
-   - **Endpoint:** `/api/v2/journals/<journal_id>`
+   - **Endpoint:** `/journals/<journal_id>`
    - **Description:** Deletes a journal entry by its ID.
    - **Importance:** Allows users to remove journal entries they no longer need.
 
