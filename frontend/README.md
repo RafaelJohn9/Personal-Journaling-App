@@ -66,8 +66,8 @@ The frontend architecture of the Personal Journal App is structured as follows:
 
 4. **PasswordReset**
    - **Component:** `PasswordReset.js`
-   - **Description:** Handles password reset.
-   - **Importance:** Provides a mechanism for users to reset their password.
+   - **Description:** Handles password **set**.
+   - **Importance:** Provides a mechanism for users to **set** their password.
 
 5. **Register**
    - **Component:** `Register.js`
@@ -114,7 +114,7 @@ The frontend architecture of the Personal Journal App is structured as follows:
 
 4. **Password Reset Screen**
    - **File:** `PasswordResetScreen.js`
-   - **Description:** Screen to reset the user's password.
+   - **Description:** Screen to **set** the user's password.
 
 5. **Forgot Password Email Screen**
    - **File:** `ForgotPass_EmailScreen.js`
