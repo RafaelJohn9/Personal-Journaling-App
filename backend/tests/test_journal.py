@@ -22,7 +22,7 @@ from app.models.journal import Journal
 # Helper function to get a valid token
 def get_valid_token(test_client, email='test@example.com', password='password'):
     """ mocks function used to get valid token from the store """
-    response = test_client.post('/api/v1/login', json={
+    response = test_client.post('/api/v2/login', json={
         'email': email,
         'password': password
     })
@@ -102,7 +102,7 @@ def test_get_journals(test_client,
     """ Tests retrieving all journals for the authenticated user. """
     token = get_valid_token(test_client)
     headers = {'set-cookie': f'access_token={token}'}
-    response = test_client.get('/api/v1/journals', headers=headers)
+    response = test_client.get('/api/v2/journals', headers=headers)
     data = json.loads(response.data)
     assert response.status_code == 200
     assert len(data['journals']) == 2
@@ -111,7 +111,7 @@ def test_create_journal(test_client, mock_jwt_required, mock_get_jwt_identity, s
     """ Tests creating a new journal for the authenticated user. """
     token = get_valid_token(test_client)
     headers = {'set-cookie': f'access_token={token}'}
-    response = test_client.post('/api/v1/journals', json={
+    response = test_client.post('/api/v2/journals', json={
         'title': 'New Journal',
         'content': 'New Content',
         'category': 'New Category'
@@ -137,7 +137,7 @@ def test_get_journal(test_client,
     token = get_valid_token(test_client)
     headers = {'set-cookie': f'access_token={token}'}
     journal_id = setup_journals[0].id
-    response = test_client.get(f'/api/v1/journals/{journal_id}', headers=headers)
+    response = test_client.get(f'/api/v2/journals/{journal_id}', headers=headers)
     data = json.loads(response.data)
     assert response.status_code == 200
     assert data['title'] == 'Title 1'
@@ -152,7 +152,7 @@ def test_update_journal(test_client,
     token = get_valid_token(test_client)
     headers = {'set-cookie': f'access_token={token}'}
     journal_id = setup_journals[0].id
-    response = test_client.put(f'/api/v1/journals/{journal_id}', json={
+    response = test_client.put(f'/api/v2/journals/{journal_id}', json={
         'title': 'Updated Title',
         'content': 'Updated Content',
         'category': 'Updated Category'
@@ -173,7 +173,7 @@ def test_delete_journal(test_client,
     token = get_valid_token(test_client)
     headers = {'set-cookie': f'access_token={token}'}
     journal_id = setup_journals[0].id
-    response = test_client.delete(f'/api/v1/journals/{journal_id}', headers=headers)
+    response = test_client.delete(f'/api/v2/journals/{journal_id}', headers=headers)
     data = json.loads(response.data)
     assert response.status_code == 200
     assert data['message'] == 'Journal deleted'
