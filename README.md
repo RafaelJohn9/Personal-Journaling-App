@@ -19,14 +19,14 @@ As for the  steps of downloading it:
 - **On the page you are redirected to, you will notice a download icon appearing on the left at the topbar. Click on it**
 
 
-- **When the zip file has finished downloading, unzip it then download the apk found inside it *(personaljournal.apk)* from an *android mobile device* (sadly I was not able to deploy on ios devices due to unavoidable circumstances)**
+- **When the zip file has finished downloading, unzip it then install the apk found inside it *(personaljournal.apk)* from an *android mobile device* (sadly I was not able to deploy on ios devices due to unavoidable circumstances).**
     - **incase of *"app not installed*" errors:**
         - **Try to:**
             - **Switch of google play protect first then try installing it again**
             - **allow installation from unknown app sources**
 
 ---
-## Deploying the frontend
+## Frontend setup
 **1. Node.js and npm: Ensure you have Node.js and npm installed. You can download them from [Node.js Official Website](https://nodejs.org/en) or  [Yarn Package Website](https://yarnpkg.com/)**
 
 **2. To install expo run:**
@@ -73,7 +73,7 @@ expo start
 https://www.johnmkagunda.me/api/v2/<endpoint>
 ```
 
-#### Though to still run it, please follow through
+#### If you still to build and run it locally, please follow through
 For the Backend, I made a docker image for it to prevent library conflicts though there are some dependencies needed locally.
 
 ```
@@ -81,11 +81,11 @@ MySQL (server and client) >= 5.7
 Redis
 Docker
 ```
-If you don't have them refer please install them.
+**If you don't have them, please install them.**
 
 1. After this you are needed to run mysql
 ```bash
-mysql
+sudo mysql
 ```
 
 2. Run this inside mysql shell
@@ -97,7 +97,7 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
-3. Run the script to set it up
+3. Run the run.sh script to set it up
 ```bash
 cd Personal-Journaling-App/backend
 ./run.sh 
