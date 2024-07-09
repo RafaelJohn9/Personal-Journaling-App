@@ -25,7 +25,7 @@ As for the  steps of downloading it:
 - **When the zip file has finished downloading, unzip it then install the apk found inside it *(personaljournal.apk)* from an *android mobile device* (sadly I was not able to deploy on ios devices due to unavoidable circumstances).**
   - **incase of *"app not installed*" errors:**
     - **Try to:**
-      - **Switch of google play protect first then try installing it again**
+      - **Switch off google play protect first then try installing it again**
       - **allow installation from unknown app sources**
 
 ---
